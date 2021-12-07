@@ -2,7 +2,6 @@
   "name": "rooms_4_all",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.0.0-beta3",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
@@ -39,7 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "nodemon ./server/src/index.js"
+    "server": "nodemon --exec babel-node ./server/src/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +59,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
     "@types/styled-components": "^5.1.15",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
