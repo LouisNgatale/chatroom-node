@@ -10,7 +10,7 @@ import registerMessageHandlers from './resources/messages/messageHandlers.js';
 export const app = express();
 // Http server for websocket endpoints
 const server = http.createServer(app);
-const ROOM = "room_1";
+
 const io = new Server(server, {
     cors: {
         origin: "*",
@@ -18,9 +18,18 @@ const io = new Server(server, {
     }
 });
 
-const onConnection = async (socket) => {
-    await socket.join(ROOM);
-    registerMessageHandlers(io, socket);
+const onConnection = (socket) => {
+    const { roomId } = socket.handshake.query;
+
+    socket.join(roomId);
+    // Leave the room if the user closes the socket
+    socket.on("disconnect", () => {
+        console.log(`Client ${socket.id} diconnected`);
+        socket.leave(roomId);
+    });
+
+    registerMessageHandlers(io, socket, roomId);
+
 }
 
 export const start = async() => {

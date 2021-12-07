@@ -1,15 +1,17 @@
 import React from 'react';
-import {NewMessage} from "./NewMessage";
-import {MessagesContainer} from "./MessagesContainer";
+import { Routes, Route, } from "react-router-dom";
+import Home from "./home/Home";
+
+import {ChatRoom} from "./chatroom/ChatRoom";
 
 function App() {
-  return (
-    <div className="App">
-      <div className="container">
-          <NewMessage/>
-          <MessagesContainer/>
+    return (
+      <div className="App">
+          <Routes>
+              <Route  path="/" element={<Home />} />
+              <Route  path="/:roomId" element={<ChatRoom />} />
+          </Routes>
       </div>
-    </div>
   );
 }
 

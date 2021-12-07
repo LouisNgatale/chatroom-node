@@ -18,6 +18,10 @@ const messageSchema = new Schema({
     _id: {
         type: String,
         required: true
+    },
+    roomId: {
+        type: String,
+        required: true
     }
 });
 

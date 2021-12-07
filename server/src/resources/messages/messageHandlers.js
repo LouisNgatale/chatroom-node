@@ -1,15 +1,15 @@
 import Message from './messages.model.js'
 import {uuid} from "uuidv4";
 
-const ROOM = "room_1";
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (io, socket) => {
+export default (io, socket, roomId) => {
     const createMessage = (data) => {
         const message = new Message({
             message: data.message,
             date: data.date,
             sender: data.sender,
-            _id: uuid()
+            _id: uuid(),
+            roomId: roomId
         });
 
         message.save()
@@ -18,9 +18,11 @@ export default (io, socket) => {
                     message: result.message,
                     sender: result.sender,
                     date: result.date,
-                    id: result.id
+                    id: result.id,
+                    roomId: roomId
                 }
-                socket.to(ROOM).emit("mgs:new", msg);
+                // socket.to(roomId).emit("msg:new", msg);
+                io.in(roomId).emit("msg:new", msg);
             })
             .catch((err) => {
                 console.log(err);

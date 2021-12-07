@@ -9,30 +9,28 @@ import {addMessage} from "./store/messages/messages";
 import {Message} from "./types/Message";
 import { io } from "socket.io-client";
 import {WEBSOCKET} from "./api";
+import useChat from "./useChat";
+import {useParams} from "react-router-dom";
+import {MessageItem} from "./MessageItem";
 
 export function NewMessage() {
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
-    const dispatch = useDispatch();
-    const socket = io(WEBSOCKET);
+    const { roomId } = useParams();
+    const { sendMessage, status, messages } = useChat(roomId);
 
-    useEffect(() => {
-        socket.on("mgs:new", (data) => {
-            dispatch(addMessage(data));
-        })
-    }, []);
-
-    const send = () => {
+    const handleSendMessage = () => {
         if(message.length > 0 && name.length > 0){
             let time = new Date();
 
             const newMessage: Message = {
                 message: message,
                 sender: name,
-                date: time.toDateString()
+                date: time.toDateString(),
+                roomId: roomId ? roomId : "global"
             }
 
-            socket.emit("msg:create", newMessage);
+            sendMessage(newMessage)
 
             setMessage("");
         }
@@ -45,7 +43,12 @@ export function NewMessage() {
                     <Input placeholder="Name" type="text" onChange={e => setName(e.target.value)} value={name}/>
                     <MessageInput placeholder="Message" type="text" onChange={e => setMessage(e.target.value)}
                                   value={message}/>
-                    <Button onClick={(e) => send()}><AiOutlineSend/></Button>
+                    <Button onClick={() => handleSendMessage()}><AiOutlineSend/></Button>
+                </div>
+
+                <div className="container m-2">
+                    <div className="py-1">Messages { status }</div>
+                    {messages && messages.map(msg =>  <MessageItem key={msg.id} message={msg.message} date = {msg.date} sender={msg.sender} />) }
                 </div>
             </div>
         </div>
