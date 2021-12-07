@@ -8,16 +8,16 @@ import {useDispatch} from "react-redux";
 import {addMessage} from "./store/messages/messages";
 import {Message} from "./types/Message";
 import { io } from "socket.io-client";
-const ENDPOINT = "http://127.0.0.1:3001";
+import {WEBSOCKET} from "./api";
 
 export function NewMessage() {
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
     const dispatch = useDispatch();
-    const socket = io(ENDPOINT);
+    const socket = io(WEBSOCKET);
 
     useEffect(() => {
-        socket.on("new_message", (data) => {
+        socket.on("mgs:new", (data) => {
             dispatch(addMessage(data));
         })
     }, []);
@@ -32,9 +32,7 @@ export function NewMessage() {
                 date: time.toDateString()
             }
 
-            socket.emit("send_message", newMessage);
-
-            console.log(newMessage);
+            socket.emit("msg:create", newMessage);
 
             setMessage("");
         }

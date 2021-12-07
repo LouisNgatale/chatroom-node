@@ -33,7 +33,6 @@ const MessageCard = styled.div`
   }
 `;
 
-
 const MessageDetails = styled.div`
   display: flex;
   justify-content: space-between;

@@ -14,7 +14,9 @@
     "@types/node": "^12.20.37",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "axios": "^0.24.0",
     "bootstrap": "^5.1.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^6.0.14",
     "prettier": "^2.5.0",
@@ -36,7 +38,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "nodemon ./server/src/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -63,6 +66,7 @@
     "eslint": "^7.11.0",
     "nanobuffer": "^2.0.0",
     "nodemon": "^2.0.15",
-    "socket.io-client": "^4.4.0"
+    "socket.io-client": "^4.4.0",
+    "uuidv4": "^6.2.12"
   }
 }
