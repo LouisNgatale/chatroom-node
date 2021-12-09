@@ -3,17 +3,12 @@ import * as React from 'react';
 import './app.css'
 import styled from "styled-components";
 import {AiOutlineSend} from "react-icons/all";
-import {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
-import {addMessage} from "./store/messages/messages";
 import {Message} from "./types/Message";
-import { io } from "socket.io-client";
-import {WEBSOCKET} from "./api";
 import useChat from "./useChat";
 import {useParams} from "react-router-dom";
 import {MessageItem} from "./MessageItem";
 
-export function NewMessage() {
+export function NewMessage(): JSX.Element {
     const [name, setName] = React.useState("");
     const [message, setMessage] = React.useState("");
     const { roomId } = useParams();

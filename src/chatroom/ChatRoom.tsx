@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {NewMessage} from "../NewMessage";
-import {MessagesContainer} from "../MessagesContainer";
 
-export function ChatRoom() {
+export function ChatRoom(): JSX.Element {
     return (
         <div>
             <div className="container">
@@ -10,4 +9,4 @@ export function ChatRoom() {
             </div>
         </div>
     );
-};
+}
