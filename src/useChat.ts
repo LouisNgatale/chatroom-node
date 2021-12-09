@@ -1,38 +1,33 @@
-import {io} from "socket.io-client";
+import {io, Socket} from "socket.io-client";
 import API, {WEBSOCKET} from "./api";
 import {useDispatch, useSelector} from "react-redux";
 import {Message} from "./types/Message";
 import {useEffect, useRef, useState} from "react";
 import {addMessage, setMessage} from "./store/messages/messages";
-import {Socket} from "socket.io";
 
 interface RootState {
     messages: Array<Message>;
 }
 const NEW_CHAT_MESSAGE_EVENT = "msg:new";
+const CONNECT = "connect";
+const MESSAGE_CREATE = "msg:create";
 
 const useChat = (roomId: string = "global") => {
     const messages  = useSelector((state: RootState) => state.messages);
-    const socketRef = useRef();
+    const socketRef = useRef<Socket | null>(null);
     const [status, setStatus] = useState("🔴");
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // @ts-ignore
         socketRef.current = io(WEBSOCKET, {
             query: { roomId },
         });
 
-        console.log("Use effect rerun");
-
-        // @ts-ignore
         socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message: Message) => {
             dispatch(addMessage(message));
-            console.log("New message");
         });
 
-        // @ts-ignore
-        socketRef.current.on("connect", () => {
+        socketRef.current.on(CONNECT, () => {
             setStatus("🟢");
             API.get(`/messages/${roomId}`,)
                 .then(function (response) {
@@ -50,11 +45,12 @@ const useChat = (roomId: string = "global") => {
     }, [roomId]);
 
     const sendMessage = (message: Message) => {
-        // @ts-ignore
-        socketRef.current.emit("msg:create", message);
+        if(socketRef.current !== null){
+            socketRef.current.emit(MESSAGE_CREATE, message);
+        }
     };
 
-    return { messages, status,  sendMessage };
+    return { messages, status,  sendMessage } as const;
 }
 
 export default useChat

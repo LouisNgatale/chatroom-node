@@ -14,8 +14,8 @@ import {useParams} from "react-router-dom";
 import {MessageItem} from "./MessageItem";
 
 export function NewMessage() {
-    const [name, setName] = useState("");
-    const [message, setMessage] = useState("");
+    const [name, setName] = React.useState("");
+    const [message, setMessage] = React.useState("");
     const { roomId } = useParams();
     const { sendMessage, status, messages } = useChat(roomId);
 

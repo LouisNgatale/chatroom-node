@@ -7,7 +7,6 @@ export function ChatRoom() {
         <div>
             <div className="container">
                 <NewMessage/>
-                {/*<MessagesContainer/>*/}
             </div>
         </div>
     );

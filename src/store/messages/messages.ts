@@ -1,9 +1,8 @@
 import {Message} from "../../types/Message";
 
-const ADD_MESSAGE = "ADD_MESSAGE";
-const INIT_MESSAGES = "INIT_MESSAGES";
+const ADD_MESSAGE: string = "ADD_MESSAGE";
+const INIT_MESSAGES: string = "INIT_MESSAGES";
 
-// ACTIONS
 export const addMessage = (message: Message) => {
     return {
         type: ADD_MESSAGE,
@@ -11,22 +10,20 @@ export const addMessage = (message: Message) => {
     }
 }
 
-export const setMessage = (message: Array<Message>) => {
+export const setMessage = (message: Message[]) => {
     return {
         type: INIT_MESSAGES,
         message
     }
 }
 
-type actionType = {
-    type: string,
-    message: Message | Array<Message>
-}
+type ACTIONTYPE  =
+    | {type: string, message: Message}
+    | {type: string, message: Message[]};
 
-const defaultMessages: Array<Message> = []
+const defaultMessages: Message[] = []
 
-// REDUCER
-export const messages = (state = defaultMessages, action: actionType) => {
+export const messages = (state: Message[] = defaultMessages, action: ACTIONTYPE ) => {
     switch (action.type){
         case ADD_MESSAGE:
             return [
